@@ -4,6 +4,7 @@ import registerServiceWorker from './registerServiceWorker';
 import Screen1 from './screens/Screen1';
 import Screen2 from './screens/Screen2';
 import Screen3 from './screens/Screen3';
+import Nav from './components/Nav';
 import './styles/app.css';
 
 class App extends Component {
@@ -13,6 +14,12 @@ class App extends Component {
 		this.state = {
 			screenIndex: 1
 		}
+
+		this.foo = this.foo.bind(this);
+	}
+
+	foo(index) {
+		this.setState({screenIndex: index})
 	}
 
 	updateScreen({newScreenIndex}) {
@@ -22,15 +29,15 @@ class App extends Component {
 	render() {
 		var ActiveScreen;
 
-		if (this.state.screenIndex == 1) {
+		if (this.state.screenIndex === 1) {
 			ActiveScreen = <Screen1 />
 		}
 
-		if (this.state.screenIndex == 2) {
+		if (this.state.screenIndex === 2) {
 			ActiveScreen = <Screen2 />
 		}
 
-		if (this.state.screenIndex == 3) {
+		if (this.state.screenIndex === 3) {
 			ActiveScreen = <Screen3 />
 		}
 
@@ -38,23 +45,7 @@ class App extends Component {
 			<div className="app">
 				<div className="app-header"></div>
 				<div className="app-wrapper">
-					<div className="app-nav">
-						<div 
-							className="nav-item screen1"
-							onClick={() => {this.updateScreen({newScreenIndex: 1, anotherArg: 'something'})}}>
-							<p>screen 1</p>
-						</div>
-						<div 
-							className="nav-item screen2"
-							onClick={() => {this.updateScreen({newScreenIndex: 2, anotherArg: 'something'})}}>
-							<p>screen 2</p>
-						</div>
-						<div 
-							className="nav-item screen3"
-							onClick={() => {this.updateScreen({anotherArg: 'something', newScreenIndex: 3})}}>
-							<p>screen 3</p>
-						</div>
-					</div>
+					<Nav bar={this.foo} state={this.state.screenIndex} />
 					<div className="main-content">
 						{ActiveScreen}
 					</div>

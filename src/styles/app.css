@@ -31,6 +31,8 @@ body {
       flex-direction: column;
       justify-content: center;
       align-items: center; }
+      .app-wrapper .app-nav .nav-item.active-nav {
+        background-color: red; }
       .app-wrapper .app-nav .nav-item:hover {
         background-color: yellow; }
   .app-wrapper .main-content {
