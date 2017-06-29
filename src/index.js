@@ -5,7 +5,12 @@ import Screen1 from './screens/Screen1';
 import Screen2 from './screens/Screen2';
 import Screen3 from './screens/Screen3';
 import Nav from './components/Nav';
+import {EventEmitter} from 'events';
+import {Route, Switch, Link} from 'react-router';
+import {BrowserRouter} from 'react-router-dom';
 import './styles/app.css';
+
+let eventEmitter = null
 
 class App extends Component {
 
@@ -14,12 +19,19 @@ class App extends Component {
 		this.state = {
 			screenIndex: 1
 		}
-
-		this.foo = this.foo.bind(this);
 	}
 
-	foo(index) {
-		this.setState({screenIndex: index})
+	componentWillMount() {
+		eventEmitter = new EventEmitter();
+
+		eventEmitter.addListener("navigateScreen", ({screenIndex}) => {
+			this.updateScreen({newScreenIndex: screenIndex});
+		});
+	}
+
+	// unregister all references here when it is no longed used
+	componentWillUnmount() {
+		eventEmitter.remove()
 	}
 
 	updateScreen({newScreenIndex}) {
@@ -27,27 +39,15 @@ class App extends Component {
 	}
 
 	render() {
-		var ActiveScreen;
-
-		if (this.state.screenIndex === 1) {
-			ActiveScreen = <Screen1 />
-		}
-
-		if (this.state.screenIndex === 2) {
-			ActiveScreen = <Screen2 />
-		}
-
-		if (this.state.screenIndex === 3) {
-			ActiveScreen = <Screen3 />
-		}
-
 		return (
 			<div className="app">
 				<div className="app-header"></div>
 				<div className="app-wrapper">
-					<Nav bar={this.foo} state={this.state.screenIndex} />
+					<Nav
+						eventEmitter={this.eventEmitter}
+						screenIndex={this.state.screenIndex} />
 					<div className="main-content">
-						{ActiveScreen}
+						{this.props.children}
 					</div>
 				</div>
 			</div>
@@ -57,7 +57,13 @@ class App extends Component {
 
 ReactDOM.render(
 	<App>
-
+		<BrowserRouter>
+			<Switch>
+				<Route path="/screen1" render={ (props) => <Screen1 eventEmitter={eventEmitter} {...props} /> } />
+				<Route path="/screen2" render={ (props) => <Screen2 eventEmitter={eventEmitter} {...props} /> } />
+				<Route path="/screen3" render={ (props) => <Screen3 eventEmitter={eventEmitter} {...props} /> } />
+			</Switch>
+		</BrowserRouter>
 	</App>,
 	document.getElementById('root')
 );
