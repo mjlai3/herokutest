@@ -6,7 +6,7 @@ import Screen2 from './screens/Screen2';
 import Screen3 from './screens/Screen3';
 import Nav from './components/Nav';
 import {EventEmitter} from 'events';
-import {Route, Switch, Link} from 'react-router';
+import {Route, Switch} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
 import './styles/app.css';
 
@@ -44,7 +44,7 @@ class App extends Component {
 				<div className="app-header"></div>
 				<div className="app-wrapper">
 					<Nav
-						eventEmitter={this.eventEmitter}
+						eventEmitter={eventEmitter}
 						screenIndex={this.state.screenIndex} />
 					<div className="main-content">
 						{this.props.children}
@@ -56,15 +56,15 @@ class App extends Component {
 }
 
 ReactDOM.render(
-	<App>
-		<BrowserRouter>
+	<BrowserRouter>
+		<App>
 			<Switch>
 				<Route path="/screen1" render={ (props) => <Screen1 eventEmitter={eventEmitter} {...props} /> } />
 				<Route path="/screen2" render={ (props) => <Screen2 eventEmitter={eventEmitter} {...props} /> } />
 				<Route path="/screen3" render={ (props) => <Screen3 eventEmitter={eventEmitter} {...props} /> } />
 			</Switch>
-		</BrowserRouter>
-	</App>,
+		</App>
+	</BrowserRouter>,
 	document.getElementById('root')
 );
 registerServiceWorker();

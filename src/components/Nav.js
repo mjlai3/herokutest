@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { NavLink } from 'react-router-dom';
 
 class Nav extends Component {
 
@@ -12,21 +13,9 @@ class Nav extends Component {
 	render() {
 		return (
 			<div className="app-nav">
-				<div 
-					className={this.props.screenIndex === 1 ? "nav-item screen1 active-nav" : "nav-item screen1"}
-					onClick={() => { this.props.eventEmitter.emit("navigateScreen", {screenIndex: 1}) }}>
-					<p>screen 1</p>
-				</div>
-				<div 
-					className={this.props.screenIndex === 2 ? "nav-item screen2 active-nav" : "nav-item screen2"}
-					onClick={() => { this.props.eventEmitter.emit("navigateScreen", {screenIndex: 2}) }}>
-					<p>screen 2</p>
-				</div>
-				<div 
-					className={this.props.screenIndex === 3 ? "nav-item screen3 active-nav" : "nav-item screen3"}
-					onClick={() => { this.props.eventEmitter.emit("navigateScreen", {screenIndex: 3}) }}>
-					<p>screen 3</p>
-				</div>
+				<NavLink to="/screen1" className="nav-item">screen 1</NavLink>
+				<NavLink to="/screen2" className="nav-item">screen 2</NavLink>
+				<NavLink to="/screen3" className="nav-item">screen 3</NavLink>
 			</div>
 		)
 	}
